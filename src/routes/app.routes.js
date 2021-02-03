@@ -24,6 +24,12 @@ function StackScreen() {
       <Stack.Screen
         name='NewPost'
         component={NewPost}
+        options={{
+          headerTintColor: '#fff',
+          headerStyle: {
+            backgroundColor: '#36393f'
+          }
+        }}
       />
       <Stack.Screen
         name='PostsUser'
