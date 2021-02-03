@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 
 export const Container = styled.View`
   flex: 1;
-  background-color: #ff8306;
+  background-color: #36393F;
   justify-content: center;
   align-items: center;
 `;
@@ -16,7 +16,7 @@ export const Title = styled.Text`
 
 export const Input = styled.TextInput`
   width: 80%;
-  background-color: #BCBCBC;
+  background-color: #eee;
   padding: 10px;
   margin-top: 10px;
   border-radius: 7px;
@@ -25,7 +25,7 @@ export const Input = styled.TextInput`
 
 export const Button = styled.TouchableOpacity`
   width: 80%;
-  background-color: #77ffff;
+  background-color: #418cfd;
   margin-top: 10px;
   padding: 10px;
   border-radius: 7px;
@@ -47,6 +47,6 @@ export const SignUpButton = styled.TouchableOpacity`
 `;
 
 export const SignUpText = styled.Text`
-  color: #484848;
+  color: #ddd;
   font-size: 15px;
 `;
