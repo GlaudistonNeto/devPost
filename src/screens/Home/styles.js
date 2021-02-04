@@ -16,5 +16,4 @@ export const ButtonPost = styled.TouchableOpacity`
   bottom: 6%;
   right: 6%;
 `;
-
-
+export const ListPosts = styled.FlatList``;
