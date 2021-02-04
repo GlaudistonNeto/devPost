@@ -1,4 +1,6 @@
 import React from 'react';
+import firebase from '../../config/firebaseConfig';
+
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { formatDistance } from 'date-fns';
 import { enCA } from 'date-fns/locale';
@@ -29,6 +31,35 @@ export default function PostsList({ data, userId }) {
     )
   };
 
+  async function likePost(id, likes) {
+    const docId = `${userId}_${id}`;
+
+    const doc = await firebase.firestore().collection('likes')
+      .doc(docId).get();
+
+    if (doc.exists) {
+      await firebase.firestore().collection('posts')
+        .doc(id).update({
+          likes: likes - 1
+        });
+
+        await firebase.firestore().collection('likes')
+          .doc(docId).delete();
+          return;
+    };
+
+    await firebase.firestore().collection('likes')
+      .doc(docId).set({
+        postId: id,
+        userId: userId,
+      })
+
+      await firebase.firestore().collection('posts')
+        .doc(id).update({
+          likes: likes + 1
+        });
+  };
+
  return (
    <Container>
      <Header>
@@ -53,7 +84,7 @@ export default function PostsList({ data, userId }) {
      </ContentView>
 
      <Actions>
-       <LikeButton>
+       <LikeButton onPress={() => likePost(data.id, data.likes)}>
          <Like>
           {data?.likes === 0 ? '' : data?.likes}
          </Like>
