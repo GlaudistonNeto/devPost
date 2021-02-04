@@ -1,28 +1,63 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { ActivityIndicator, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { AuthContext } from '../../contexts/auth';
+import firebase from '../../config/firebaseConfig';
+
 
 import { Feather } from '@expo/vector-icons';
 
-import Header from '../../components/Header';
 import { Container, ButtonPost, ListPosts } from './styles';
-import { Text } from 'react-native';
+import Header from '../../components/Header';
+import PostsList from '../../components/PostsList';
 
 export default function Home() {
   const navigation = useNavigation();
-  const [posts, setposts] = useState([
-    {id: '01', name: 'user1', },
-    {id: '02', name: 'user2', },
-    {id: '03', name: 'user3', },
-  ]);
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { user } = useContext(AuthContext);
+
+  useEffect(() => {
+    const subscriber = firebase.firestore()
+      .collection('posts')
+      .orderBy('created', 'desc')
+      .onSnapshot(snapshot => {
+        const postList = [];
+
+        snapshot.forEach(doc => {
+          postList.push({
+            ...doc.data(),
+            id: doc.id,
+          });
+        });
+
+        setPosts(postList);
+        setLoading(false);
+      })
+
+      return () => subscriber();
+  }, []);
   
  return (
    <Container>
     <Header />
-
-    <ListPosts
-      data={posts}
-      renderItem={(item) => (<Text>Test</Text>)}
-    />
+    {
+      loading ?
+      (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <ActivityIndicator
+            size={50} color='#e52246'
+          />
+        </View>
+      ) :
+      (
+        <ListPosts
+          showVerticalScrollIndicator={false}
+          data={posts}
+          renderItem={({ item }) => <PostsList data={item} userId={ user.uid } />}
+        />
+      )
+    }
 
      <ButtonPost onPress={() => navigation.navigate('NewPost')}>
       <Feather

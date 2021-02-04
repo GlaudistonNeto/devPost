@@ -16,7 +16,3 @@ export const Title = styled.Text`
   font-weight: bold;
   padding-bottom: 15px;
 `;
-
-export const Text = styled.Text`
-  
-`;
