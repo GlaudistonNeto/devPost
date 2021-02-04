@@ -34,6 +34,11 @@ function StackScreen() {
       <Stack.Screen
         name='PostsUser'
         component={PostsUser}
+        options={{
+          headerTintColor: '#fff',
+          headerStyle: {
+              backgroundColor: '#36393f'
+          } }}
       />
     </Stack.Navigator>
   );

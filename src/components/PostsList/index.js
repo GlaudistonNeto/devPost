@@ -1,5 +1,6 @@
 import React from 'react';
 import firebase from '../../config/firebaseConfig';
+import { useNavigation } from '@react-navigation/native';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { formatDistance } from 'date-fns';
@@ -18,6 +19,7 @@ import {
 } from './styles';
 
 export default function PostsList({ data, userId }) {
+  const navigation = useNavigation();
 
   function formatTimePost() {
     const datePost = new Date(data.created.seconds * 1000);
@@ -62,7 +64,8 @@ export default function PostsList({ data, userId }) {
 
  return (
    <Container>
-     <Header>
+     <Header onPress={() => navigation.navigate(
+       'PostsUser', {title: data.author, userId: data.userId})}>
      {
        data.avatarUrl ?
        (
